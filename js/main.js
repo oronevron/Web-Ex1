@@ -16,6 +16,7 @@ $(function() {
 function processMessages(messages) {
 
     var lastIndex = -1;
+
     var getNextMessage = function () {
         if (!messages.length) {
             return;
@@ -46,7 +47,7 @@ function processMessages(messages) {
             }
             else
             {
-                messageChain();
+                waitBeforeNextRound().then(messageChain);
             }
         }
     };
@@ -132,6 +133,17 @@ function getCurrentTime(date) {
     var s = addLeadingZeros(date.getSeconds());
 
     return (h + ":" + m + ":" + s);
+}
+
+function waitBeforeNextRound() {
+    var deferred = new $.Deferred();
+
+    // Wait for a little bit in order to avoid callstack from reaching max size
+    setTimeout(function () {
+        deferred.resolve();
+    }, 100);
+
+    return deferred.promise();
 }
 
 function handleMessage(message) {
