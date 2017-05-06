@@ -6,7 +6,7 @@ $(function() {
     var screenId = 3;
 
     // Gets JSON of all the relevant messages from the server and sends them to be processed and displayed
-    $.get('http://localhost:8080/?screen=' + screenId)
+    $.get('http://localhost:8080/screen=' + screenId)
         .then(processMessages, function (error) {
             console.error('Error occured: ', error);
         });

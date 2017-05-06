@@ -98,10 +98,10 @@
     }
 
     // Define handler for get request of specific screen
-    app.get("/", function (request, response) {
+    app.get("/screen=:id", function (request, response) {
 
         // Get the screen id from the request and parse it to int
-        var screenId = parseInt(request.query.screen);
+        var screenId = parseInt(request.params.id);
 
         // Get the messages json from the data file
         fs.readFile('data/data.json', 'utf8', function (err, data) {
