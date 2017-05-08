@@ -8,8 +8,6 @@
     var port = 8080;
     var app = express();
 
-    console.log(__dirname);
-
     // Serving static files
     app.use(express.static(path.join(__dirname, '../')));
 
