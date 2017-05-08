@@ -24,7 +24,7 @@ function processMessages(messages) {
 
         lastIndex++;
 
-        // If we finished going through all messages, load data again from server just in case something changed
+        // If we finished going through all messages, load data again from server just in case of change
         if (lastIndex >= messages.length)
         {
             $.get('http://localhost:8080/screen=' + screenId)
