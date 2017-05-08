@@ -24,9 +24,15 @@ function processMessages(messages) {
 
         lastIndex++;
 
+        // If we finished going through all messages, load data again from server just in case something changed
         if (lastIndex >= messages.length)
         {
-            lastIndex=0;
+            $.get('http://localhost:8080/screen=' + screenId)
+                .then(processMessages, function (error) {
+                    console.error('Error occured: ', error);
+                });
+
+//            lastIndex=0;
         }
 
         return messages[lastIndex];
