@@ -8,9 +8,10 @@
     var port = 8080;
     var app = express();
 
-    // Static files
-    // app.use(express.static(path.join(__dirname, '/data')));
-    // app.use(express.static( 'data'));
+    console.log(__dirname);
+
+    // Serving static files
+    app.use(express.static(path.join(__dirname, '../')));
 
     // Checks if the message is scheduled and returns indicator whether it should be displayed
     function isMessageInSchedule(message, screenId) {
