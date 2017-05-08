@@ -1,9 +1,9 @@
 var messages;
 
-$(function() {
+// The id of the screen we want to show its messages
+var screenId = 3;
 
-    // The id of the screen we want to show its messages
-    var screenId = 3;
+$(function() {
 
     // Gets JSON of all the relevant messages from the server and sends them to be processed and displayed
     $.get('http://localhost:8080/screen=' + screenId)
@@ -31,8 +31,6 @@ function processMessages(messages) {
                 .then(processMessages, function (error) {
                     console.error('Error occured: ', error);
                 });
-
-//            lastIndex=0;
         }
 
         return messages[lastIndex];
@@ -52,17 +50,6 @@ function processMessages(messages) {
 
     messageChain();
 }
-
-// function waitBeforeNextRound() {
-//     var deferred = new $.Deferred();
-//
-//     // Wait for a little bit in order to avoid callstack from reaching max size
-//     setTimeout(function () {
-//         deferred.resolve();
-//     }, 100);
-//
-//     return deferred.promise();
-// }
 
 function handleMessage(message) {
     var deferred = new $.Deferred();
