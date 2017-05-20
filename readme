@@ -1,13 +1,7 @@
 Running Instructions:
 
-Running the server:
-1) cd Ex2/server
-2) npm install
-3) node server.js
+Run the "run.bat" file
 
-Running the client:
-1) cd Ex2
-2) In order to change the screen id (The default value is 3), open 'js/main.js' file and change line 6 to the wanted value (var screenId = 3;)
-3) Open Google Chrome (WinKey + R and run the command: 'chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security')
-4) In Google Chrome, run the 'index.html' file: 'http://localhost:8080/index.html'
-
+!IMPORTANT!
+* If the MongoDB server directory in your computer is different than: "C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe" - You should replace it in the "run.bat" file
+* In order to change the screen id (The default value is 3), open 'js/main.js' file and change line 4 to the wanted value (var screenId = 3;)
