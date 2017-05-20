@@ -4,8 +4,10 @@
     var express = require("express");
     var path = require("path");
     var fs = require("fs");
+    var mongoClient = require('mongodb').MongoClient;
 
     var port = 8080;
+    var mongoDbUrl = 'mongodb://localhost:27017/ex3db';
     var app = express();
 
     // Serving static files
@@ -102,31 +104,43 @@
         // Get the screen id from the request and parse it to int
         var screenId = parseInt(request.params.id);
 
-        // Get the messages json from the data file
-        fs.readFile('data/data.json', 'utf8', function (err, data) {
+        // Connect to the relevant database in MongoDB
+        mongoClient.connect(mongoDbUrl, function(err, db) {
 
-            // Parse the json string to array
-            var messages = JSON.parse(data);
+            // If the connection succeeded
+            if(!err) {
 
-            // Set array that will contain the messages to send in the response to the client
-            var messagesToResponse = [];
+                // Get the messages collection in the database
+                var collection = db.collection('messages');
 
-            // Loop over all messages
-            for (var i in messages) {
-                var message = messages[i];
+                // Get the messages that relevant to the screen from the database
+                collection.find({screenIds:+screenId}).toArray(function(err, results) {
 
-                // If the message is scheduled and it should be displayed - Add it to the messages to response array
-                if (isMessageInSchedule(message, screenId)) {
-                    messagesToResponse.push(message);
-                }
+                    // Set array that will contain the messages to send in the response to the client
+                    var messagesToResponse = [];
+
+                    // Loop over all fetched messages
+                    for (var i in results) {
+                        var message = results[i];
+
+                        // If the message is scheduled and it should be displayed - Add it to the messages to response array
+                        if (isMessageInSchedule(message, screenId)) {
+                            messagesToResponse.push(message);
+                        }
+                    }
+
+                    // Send the relevant messages in response to the client
+                    response.json(messagesToResponse);
+
+                    // Close the MongoDB connection
+                    db.close();
+                });
             }
-
-            // Send the relevant messages in response to the client
-            response.set({'content-type': 'application/json; charset=utf-8'});
-            response.write(JSON.stringify(messagesToResponse));
-            response.end();
+            // If an error occurred while the connection
+            else {
+                console.log("ERROR CONNECTING TO MONGO DB");
+            }
         });
-
     });
 
     app.listen(port);
